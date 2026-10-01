@@ -124,7 +124,13 @@ const kick = () => Object.keys(agents).forEach(work);
 
 // ---- HTTP ----
 function send(res, status, body) {
-  res.writeHead(status, {'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store'});
+  res.writeHead(status, {
+    'content-type': 'application/json; charset=utf-8',
+    'access-control-allow-origin': '*',
+    'access-control-allow-methods': 'GET, POST, PATCH, OPTIONS',
+    'access-control-allow-headers': 'content-type',
+    'cache-control': 'no-store'
+  });
   res.end(JSON.stringify(body));
 }
 function readJson(req) {
@@ -142,7 +148,16 @@ function newTask(input) {
   return {id: crypto.randomUUID(), title, assignee, brief: text(input.brief, 5000), status: ['done','review'].includes(status) && !result ? 'queued' : status, result, createdAt: now()};
 }
 async function api(req, res, url) {
-  if (url.pathname === '/api/agents' && req.method === 'GET')
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'access-control-allow-origin': '*',
+      'access-control-allow-methods': 'GET, POST, PATCH, OPTIONS',
+      'access-control-allow-headers': 'content-type'
+    });
+    return res.end();
+  }
+  const pathname = (url.pathname || '').replace(/\/+$/, '') || '/';
+  if (pathname === '/api/agents' && req.method === 'GET')
     return send(res, 200, {
       mode: DRY_RUN ? 'dry-run' : AI_PROVIDER,
       model: DRY_RUN ? null : (AI_PROVIDER === 'claude' ? CLAUDE_MODEL : GEMINI_MODEL),
@@ -154,8 +169,8 @@ async function api(req, res, url) {
         }
       ]))
     });
-  if (url.pathname === '/api/tasks' && req.method === 'GET') return send(res, 200, tasks);
-  if (url.pathname === '/api/tasks' && req.method === 'POST') {
+  if (pathname === '/api/tasks' && req.method === 'GET') return send(res, 200, Array.isArray(tasks) ? tasks : []);
+  if (pathname === '/api/tasks' && req.method === 'POST') {
     const input=await readJson(req);
     if(input?.status!==undefined&&!STATES.has(input.status))return send(res,400,{error:'Unknown status.'});
     const task = newTask(input); if (!task) return send(res, 400, {error: 'A task needs a title and an assignee.'});
@@ -165,7 +180,7 @@ async function api(req, res, url) {
     tasks.unshift(task); save(); send(res, 201, task); setImmediate(kick); return;
   }
   // One-time move of tasks saved in a browser before the server existed; only into an empty store.
-  if (url.pathname === '/api/tasks/import' && req.method === 'POST') {
+  if (pathname === '/api/tasks/import' && req.method === 'POST') {
     if (tasks.length) return send(res, 409, {error: 'The server already has tasks.'});
     const list = await readJson(req); if (!Array.isArray(list)) return send(res, 400, {error: 'Expected a list of tasks.'});
     if(tasks.length)return send(res,409,{error:'The server already has tasks.'});
@@ -174,7 +189,7 @@ async function api(req, res, url) {
     tasks.forEach(task => { if (task.status === 'active') task.status = 'queued'; });
     save(); kick(); return send(res, 201, tasks);
   }
-  const match = url.pathname.match(/^\/api\/tasks\/([0-9a-f-]{36})$/);
+  const match = pathname.match(/^\/api\/tasks\/([0-9a-f-]{36})$/);
   if (match && req.method === 'PATCH') {
     const task = tasks.find(t => t.id === match[1]); if (!task) return send(res, 404, {error: 'Task not found.'});
     const input = await readJson(req), change = {};

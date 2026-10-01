@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server/server.js",
     "start": "node server/server.js",
-    "build": "node -c server/server.js server/agents.js",
+    "build": "vite build && mkdir -p dist/office && cp dist/office.html dist/office/index.html",
     "lint": "node -c server/server.js server/agents.js"
   },
   "dependencies": {
