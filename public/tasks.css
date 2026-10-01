@@ -1,0 +1,287 @@
+/* Ziera Virtual Office: Dark glassmorphic tasks styling derived from landing page pattern */
+dialog#taskDialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(960px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  background: rgba(4, 9, 18, 0.94);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  backdrop-filter: blur(28px) saturate(1.2);
+  color: #ffffff;
+  border: 1px solid rgba(196, 214, 232, 0.25);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 28px;
+  font: 14px/1.5 var(--sans, 'Plus Jakarta Sans', sans-serif);
+  user-select: text;
+  z-index: 50;
+}
+
+#taskDialog::backdrop {
+  background: rgba(2, 6, 15, 0.75);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+#taskDialog h1 {
+  font-size: 26px;
+  margin: 0;
+  letter-spacing: -0.4px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+#taskDialog h2 {
+  font-size: 17px;
+  margin: 0 0 16px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.task-header p, .task-note, #taskSummary {
+  color: var(--ink-2, #a2a9b8);
+  margin: 6px 0 16px;
+}
+
+.task-note {
+  font-size: 13px;
+}
+
+.task-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.35fr);
+  gap: 32px;
+  margin-top: 20px;
+  border-top: 1px solid var(--line, rgba(196, 214, 232, 0.18));
+  padding-top: 20px;
+}
+
+#taskDialog label {
+  display: block;
+  margin: 14px 0 6px;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+#taskDialog label span {
+  font-weight: 400;
+  color: var(--ink-2, #a2a9b8);
+}
+
+#taskDialog input,
+#taskDialog select,
+#taskDialog textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border: 1px solid rgba(196, 214, 232, 0.22);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font: inherit;
+  min-height: 44px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+#taskDialog select option {
+  background: #060c16;
+  color: #ffffff;
+}
+
+#taskDialog input:focus,
+#taskDialog select:focus,
+#taskDialog textarea:focus {
+  outline: none;
+  border-color: var(--accent, #9fe0ff);
+  box-shadow: 0 0 12px rgba(159, 224, 255, 0.3);
+}
+
+#taskDialog textarea {
+  resize: vertical;
+}
+
+#taskDialog input::placeholder,
+#taskDialog textarea::placeholder {
+  color: #636b7b;
+}
+
+#taskDialog button {
+  min-height: 42px;
+  padding: 9px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  border: 1px solid rgba(196, 214, 232, 0.25);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#taskDialog button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(196, 214, 232, 0.45);
+}
+
+#taskDialog button:active {
+  transform: translateY(1px);
+}
+
+#taskDialog .task-primary {
+  background:
+    linear-gradient(180deg, rgba(6, 12, 22, 0) 45%, rgba(6, 12, 22, 0.2) 100%),
+    linear-gradient(90deg, rgba(255, 226, 178, 0.25) 0%, rgba(150, 196, 244, 0.3) 100%),
+    rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(196, 214, 232, 0.45);
+  box-shadow: 0 0 20px rgba(168, 204, 252, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+#taskDialog .task-primary:hover {
+  background:
+    linear-gradient(180deg, rgba(6, 12, 22, 0) 45%, rgba(6, 12, 22, 0.2) 100%),
+    linear-gradient(90deg, rgba(255, 226, 178, 0.35) 0%, rgba(150, 196, 244, 0.4) 100%),
+    rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 28px rgba(168, 204, 252, 0.4);
+}
+
+#taskForm > .task-primary {
+  width: 100%;
+  margin: 18px 0 10px;
+}
+
+.task-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.task-filters label {
+  margin-top: 0 !important;
+}
+
+.task-item {
+  border: 1px solid rgba(196, 214, 232, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  overflow-wrap: anywhere;
+  transition: border-color 0.2s;
+}
+
+.task-item:hover {
+  border-color: rgba(196, 214, 232, 0.3);
+}
+
+.task-item h3 {
+  font-size: 16px;
+  margin: 0 0 6px;
+  color: #ffffff;
+}
+
+.task-meta {
+  color: var(--ink-2, #a2a9b8);
+  font: 500 12px var(--mono, monospace);
+}
+
+.task-item p {
+  white-space: pre-wrap;
+  margin: 8px 0;
+  color: #e2ebf5;
+}
+
+.task-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.task-empty {
+  padding: 28px 0;
+  color: var(--ink-2, #a2a9b8);
+  text-align: center;
+}
+
+.task-result {
+  margin-top: 12px;
+  padding: 14px;
+  background: rgba(2, 6, 15, 0.7);
+  border: 1px solid rgba(196, 214, 232, 0.2);
+  border-radius: 10px;
+  white-space: pre-wrap;
+  color: #e2ebf5;
+}
+
+#taskFeedback:not(:empty) {
+  padding: 12px 14px;
+  border: 1px solid rgba(159, 224, 255, 0.35);
+  background: rgba(159, 224, 255, 0.08);
+  color: #9fe0ff;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+#taskSummary {
+  margin-top: 12px;
+  font-weight: 500;
+  color: var(--accent, #9fe0ff);
+}
+
+#taskDialog button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.task-agent {
+  color: #4ade80;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.task-error {
+  color: #f87171;
+  font-size: 13px;
+}
+
+.task-questions {
+  background: rgba(255, 226, 178, 0.08);
+  border-color: rgba(255, 226, 178, 0.35);
+  color: #ffd899;
+}
+
+@media (max-width: 640px) {
+  dialog#taskDialog {
+    width: 100%;
+    max-width: none;
+    max-height: 100dvh;
+    height: 100dvh;
+    border-radius: 0;
+    padding: 20px 16px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+  .task-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .task-header h1 {
+    font-size: 22px;
+  }
+  .task-filters {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Ziera Virtual Office",
+  "description": "Interactive 3D virtual office across four floors with team simulation, task management, and autonomous AI workers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
